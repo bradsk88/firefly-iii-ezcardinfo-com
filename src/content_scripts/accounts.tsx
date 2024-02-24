@@ -1,6 +1,7 @@
 import {
     AccountRoleProperty,
     AccountStore,
+    CreditCardType,
     ShortAccountTypeProperty
 } from "firefly-iii-typescript-sdk-fetch/dist/models";
 import {AutoRunState} from "../background/auto_state";
@@ -9,7 +10,8 @@ import {
     getAccountName,
     getAccountNumber,
     getButtonDestination,
-    getOpeningBalance, isPageReadyForScraping
+    getOpeningBalance,
+    isPageReadyForScraping
 } from "./scrape/accounts";
 import {openAccountForAutoRun} from "./auto_run/accounts";
 import {runOnURLMatch} from "../common/buttons";
@@ -37,8 +39,6 @@ async function scrapeAccountsFromPage(isAutoRun: boolean): Promise<AccountStore[
         const accountNumber = getAccountNumber(element)
         const accountName = getAccountName(element);
         const openingBalance = getOpeningBalance(element);
-        // TODO: Double-check these values. You may need to update them based
-        //  on the account element or bank.
         let openingBalanceBalance: string | undefined;
         if (openingBalance) {
             openingBalanceBalance = `${openingBalance.balance}`;
@@ -52,9 +52,8 @@ async function scrapeAccountsFromPage(isAutoRun: boolean): Promise<AccountStore[
             openingBalanceDate: openingBalance?.date,
             type: ShortAccountTypeProperty.Asset,
             accountRole: AccountRoleProperty.CcAsset,
-            // TODO: If you're building a scraper for a credit card, uncomment these
-            // creditCardType: CreditCardType.MonthlyFull,
-            // monthlyPaymentDate: new Date(2023, 1, 1),
+            creditCardType: CreditCardType.MonthlyFull,
+            monthlyPaymentDate: new Date(2023, 1, 1),
             currencyCode: "CAD",
         };
         return as;
@@ -112,7 +111,7 @@ function enableAutoRun() {
     });
 }
 
-const accountsUrl = 'accounts/main/details'; // TODO: Set this to your accounts page URL
+const accountsUrl = 'account/account-summary';
 
 runOnURLMatch(accountsUrl, () => {
     pageAlreadyScraped = false;

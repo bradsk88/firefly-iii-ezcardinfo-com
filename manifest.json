@@ -1,7 +1,7 @@
 {
-  "name": "My Firefly III OAuth2 Extension",
+  "name": "eZCardInfo -> Firefly III",
   "version": "1.0",
-  "description": "Description goes here",
+  "description": "Scrapes account and transaction data from eZCardInfo (Home Trust Visa) into Firefly III",
   "permissions": [
     "storage",
     "tabs"
@@ -22,7 +22,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://*.example.com/*"
+        "https://*.ezcardinfo.com/account/account-summary*"
       ],
       "js": [
         "./dist/auto.js"
@@ -30,7 +30,7 @@
     },
     {
       "matches": [
-        "https://*.example.com/*"
+        "https://*.ezcardinfo.com/account/account-summary*"
       ],
       "js": [
         "./dist/accounts.js"
@@ -38,18 +38,10 @@
     },
     {
       "matches": [
-        "https://*.example.com/*"
+        "https://*.ezcardinfo.com/account/account-summary*"
       ],
       "js": [
         "./dist/transactions.js"
-      ]
-    },
-    {
-      "matches": [
-        "https://*.example.com/*"
-      ],
-      "js": [
-        "./dist/opening.js"
       ]
     }
   ],

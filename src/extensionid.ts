@@ -1,8 +1,8 @@
-export const debugAutoRun = true; // TODO: Set this to false once you've successfully implemented auto-run
-export const bankDomain = ''; // TODO: Put the bank's domain (this should be part of the auto run start URL)
-export const autoRunStartURL = ''; // TODO: Put the URL where the auto run should start
-export const extensionPrimaryColorHex = 'FFFFFF'; // TODO: Choose a primary color (the pig in your extension's icon - if you stuck with that icon)
-export const extensionSecondaryColorHex = '000000'; // TODO: Choose a secondary color (the flame in your extension's icon - if you stuck with that icon)
-export const isSingleAccountBank = false; // TODO: If your bank only has one account (e.g. a credit card) set this true.
-export const extensionBankName = `Untitled [${chrome.runtime.id}]`; // TODO: Name your extension
+export const debugAutoRun = false; // TODO: Set this to false once you've successfully implemented auto-run
+export const bankDomain = 'ezcardinfo.com';
+export const autoRunStartURL = 'https://www.ezcardinfo.com';
+export const extensionPrimaryColorHex = 'FFFFFF';
+export const extensionSecondaryColorHex = '00b0f0';
+export const isSingleAccountBank = true;
+export const extensionBankName = `eZCardInfo`;
 export const hubExtensionId = 'kcghjdbnjdaabfigmmjgmgiaehjidpoh';

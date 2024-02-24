@@ -156,8 +156,7 @@ function enableAutoRun() {
     });
 }
 
-// TODO: Set this to your transactions page URL
-const txPage = 'accounts/main/details';
+const txPage = 'account/account-summary';
 
 runOnURLMatch(txPage, () => pageAlreadyScraped = false);
 
@@ -178,7 +177,6 @@ runOnContentChange(
 runOnContentChange(
     txPage,
     enableAutoRun,
-    // TODO: Change this to an element that is on the page once transactions have loaded
-    () => document.querySelector('app-root')!,
+    () => document.querySelector('#Transactions')!,
     'txAutoRun',
 );

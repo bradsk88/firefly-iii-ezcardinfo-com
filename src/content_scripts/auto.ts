@@ -1,12 +1,7 @@
 import {AutoRunState} from "../background/auto_state";
 import {runOnContentChange} from "../common/autorun";
 
-// TODO: You will need to update manifest.json so this file will be loaded on
-//  the correct URL(s)
-
 function buildCol() {
-    // TODO: These are just some default styles for the status bar.
-    //  It should be fine to style these however you please.
     const col = document.createElement("td");
     col.style.width = "40px";
     col.style.background = "white";
@@ -17,8 +12,6 @@ function buildCol() {
 let statusBarId = 'firefly-extension-autorun-status-bar';
 
 function buildStatusBar(acctCol: HTMLTableCellElement, txCol: HTMLTableCellElement, doneCol: HTMLTableCellElement) {
-    // TODO: These are just some default styles for the status bar.
-    //  It should be fine to style these however you please.
     const container = document.createElement("div");
     container.style.position = "absolute";
     container.style.top = "0";

@@ -9,7 +9,6 @@ module.exports = {
         initialize: path.join(srcDir, 'initialize.tsx'),
         accounts: path.join(scriptsDir, 'accounts.tsx'),
         transactions: path.join(scriptsDir, 'transactions.tsx'),
-        opening: path.join(scriptsDir, 'opening.tsx'),
         auto: path.join(srcDir, 'content_scripts', 'auto.ts'),
     },
     output: {

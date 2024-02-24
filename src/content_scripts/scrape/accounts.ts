@@ -1,63 +1,37 @@
-import {sha512} from "js-sha512";
 import {OpeningBalance} from "../../background/firefly_export";
 
 export function getButtonDestination(): Element {
-    // TODO: Find a DOM element on the page where the manual "export to firefly"
-    //  button should go.
-    return document.body;
+    return document.querySelector('.nav-menu')!;
 }
 
 export function isPageReadyForScraping(): boolean {
-    // TODO: Some banks load accounts in slowly. Find a DOM element that is
-    //  only present on the page once the accounts are fully loaded.
-    return !!document.querySelector('span.account__details-number');
+    return true;
 }
 
 export function getAccountElements(): Element[] {
-    // TODO: You'll almost certainly need to replace this with your own logic.
-    //  This is grabbing the "rows" of accounts from the page.
-    //  If the bank presents a single page with a list of transactions right
-    //  after the user logs in, try to return an element from the page which
-    //  includes the account name and number.
     return [document.querySelector(
         '.header-main .text-right .dropdown .text-bold',
     )!];
 }
 
 export function shouldSkipScrape(accountElement: Element): boolean {
-    // TODO: If there are some types of accounts on the page that can't be
-    //  scraped, return true for those here and they will be skipped.
-    return false;
+    return false
 }
 
 export function getAccountNumber(
     accountElement: Element,
 ): string {
-    // TODO: You'll almost certainly need to replace this with your own logic.
-    //  This is grabbing the BANK'S account number from the row (not Firefly's
-    //  account ID).
-    const input = accountElement.getElementsByTagName("input")[0];
-    const accountNumber = input.attributes.getNamedItem('value')!.value;
-    // If the account numbers on the page are long, SHA512 will make them a
-    // consistent and acceptable length.
-    // return sha512(accountNumber);
-    return accountNumber;
+    return accountElement.textContent!.split('-')[1].trim();
 }
 
 export function getAccountName(
     accountElement: Element,
 ): string {
-    // TODO: You'll almost certainly need to replace this with your own logic.
-    //  This is grabbing the account name from the row.
-    return accountElement.attributes
-        .getNamedItem('aria-label')!.value
-        .split('Transaction History for ')[1];
+    return getAccountNumber(accountElement)
 }
 
 export function getOpeningBalance(
     accountElement: Element,
 ): OpeningBalance | undefined {
-    // TODO: If you can confidently determine the opening balance, do that here.
-    //  When in doubt, return undefined.
     return undefined;
 }
