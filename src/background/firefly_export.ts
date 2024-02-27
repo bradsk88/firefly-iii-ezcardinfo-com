@@ -2,12 +2,12 @@ import {AccountRead} from "firefly-iii-typescript-sdk-fetch/dist/models/AccountR
 import {
     AccountsApi,
     Configuration,
-    TransactionArray, TransactionRead,
+    TransactionArray,
+    TransactionRead,
     TransactionsApi,
     TransactionStore
 } from "firefly-iii-typescript-sdk-fetch";
 import {AccountArray, AccountStore} from "firefly-iii-typescript-sdk-fetch/dist/models";
-import {TransactionSplit} from "firefly-iii-typescript-sdk-fetch/dist/models/TransactionSplit";
 
 export interface OpeningBalance {
     accountNumber: string;
@@ -115,6 +115,28 @@ export function doStoreTransactions(
     data.forEach(txStore => api.storeTransaction({
         transactionStore: txStore,
     }));
+}
+
+export function doDeleteTransaction(
+    token: string,
+    baseURL: string,
+    txID: string,
+) {
+    let api = new TransactionsApi(
+        new Configuration({
+            basePath: baseURL,
+            accessToken: `Bearer ${token}`,
+            headers: {
+                "Content-Type": "application/json",
+                "accept": "application/vnd.api+json",
+            },
+            fetchApi: self.fetch.bind(self),
+        }),
+    );
+    console.log('deleting tx', txID);
+    api.deleteTransaction({id: txID}).catch(
+        e => console.error('failed to delete via SDK', e)
+    );
 }
 
 export function doStoreAccounts(

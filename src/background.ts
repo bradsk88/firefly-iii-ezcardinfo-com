@@ -1,10 +1,10 @@
 import {TransactionRead, TransactionStore} from "firefly-iii-typescript-sdk-fetch";
-import {TransactionSplit} from "firefly-iii-typescript-sdk-fetch/dist/models/TransactionSplit";
 import {AccountStore} from "firefly-iii-typescript-sdk-fetch/dist/models";
 import {AccountRead} from "firefly-iii-typescript-sdk-fetch/dist/models/AccountRead";
 import {AutoRunState} from "./background/auto_state";
 import {doOauth, getApiBaseUrl, getBearerToken} from "./background/oauth";
 import {
+    doDeleteTransaction,
     doListAccounts,
     doListTxs,
     doStoreAccounts,
@@ -104,6 +104,12 @@ async function storeTransactions(data: TransactionStore[]) {
     return doStoreTransactions(bearer, baseURL, data);
 }
 
+async function deleteTransaction(txid: string) {
+    const bearer = await getBearerToken();
+    const baseURL = await getApiBaseUrl();
+    return doDeleteTransaction(bearer, baseURL, txid);
+}
+
 async function storeOpeningBalance(data: OpeningBalance) {
     const bearer = await getBearerToken();
     const baseURL = await getApiBaseUrl();
@@ -151,6 +157,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 backgroundLog(`[error] ${error}`)
             });
         }).then(sendResponse)
+    } else if (message.action === "delete_transaction") {
+        deleteTransaction(message.value).catch(
+            e => console.log('failed to deleteTransaction', `ID: ${message.value}`, e)
+        );
     } else if (message.action === "list_transactions") {
         listTxs(message.value).then(sendResponse)
     } else if (message.action === "store_opening") {
