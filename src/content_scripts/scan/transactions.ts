@@ -34,6 +34,7 @@ export function createRowWithButtonForRemoteOnlyTx(
             // BASE: Actually wait for success
             elementToRemoveOnSuccess.remove();
         });
+        // BASE: Add the ability to "ignore" for transactions that are remote-only for a reason
         btn.innerText = 'Delete from Firefly III';
         return btn;
     }
@@ -53,6 +54,7 @@ export class FireflyTransactionUIAdder {
 
     constructor(
         private readonly accountNo: string,
+        private readonly invertValues: boolean,
     ) {
     }
 
@@ -90,7 +92,10 @@ export class FireflyTransactionUIAdder {
         );
         this.localOnly.forEach(
             row => applyStylingAndAddButtonForLocalOnlyRow(
-                row.txRow!, () => this.storeTx(row)
+                row.txRow!, (e: MouseEvent) => {
+                    this.storeTx(row);
+                    e.preventDefault();
+                }
             ),
         );
         this.remoteOnly.forEach(row => createRowWithButtonForRemoteOnlyTx(
@@ -106,7 +111,8 @@ export class FireflyTransactionUIAdder {
         let tType = TransactionTypeProperty.Deposit;
         let srcId: string | undefined = undefined;
         let destId: string | undefined = this.accountNo;
-        if (parseInt(row.tx.amount) < 0) {
+        const inverter = this.invertValues ? 1 : -1;
+        if (inverter * parseInt(row.tx.amount) > 0) {
             tType = TransactionTypeProperty.Withdrawal;
             srcId = this.accountNo;
             destId = undefined;
@@ -116,7 +122,7 @@ export class FireflyTransactionUIAdder {
                 is_auto_run: false,
                 value: [{
                     applyRules: true,
-                    errorIfDuplicateHash: true,
+                    errorIfDuplicateHash: false,
                     transactions: [{
                         amount: row.tx.amount,
                         description: row.tx.description,

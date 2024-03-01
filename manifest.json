@@ -4,7 +4,8 @@
   "description": "Scrapes account and transaction data from eZCardInfo (Home Trust Visa) into Firefly III",
   "permissions": [
     "storage",
-    "tabs"
+    "tabs",
+    "contextMenus"
   ],
   "externally_connectable": {
     "ids": [
