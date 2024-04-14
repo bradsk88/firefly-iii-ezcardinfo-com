@@ -23,7 +23,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://*.ezcardinfo.com/account/account-summary*"
+        "https://*.ezcardinfo.com/account/account-summary*",
+        "https://*.ezcardinfo.com/account/search-transaction*"
       ],
       "js": [
         "./dist/auto.js"
@@ -31,7 +32,8 @@
     },
     {
       "matches": [
-        "https://*.ezcardinfo.com/account/account-summary*"
+        "https://*.ezcardinfo.com/account/account-summary*",
+        "https://*.ezcardinfo.com/account/search-transaction*"
       ],
       "js": [
         "./dist/accounts.js"
@@ -39,7 +41,8 @@
     },
     {
       "matches": [
-        "https://*.ezcardinfo.com/account/account-summary*"
+        "https://*.ezcardinfo.com/account/account-summary*",
+        "https://*.ezcardinfo.com/account/search-transaction*"
       ],
       "js": [
         "./dist/transactions.js"

@@ -33,6 +33,10 @@ export function getRowDate(el: Element): Date {
     return parseDate(el.children[0].children[0].children[0].textContent!);
 }
 
+export function getPageNum() {
+return Number.parseInt(document.querySelector('.pagination li.active')!.textContent!);
+}
+
 function isRowLoading(r: Element): boolean {
     return false;
 }

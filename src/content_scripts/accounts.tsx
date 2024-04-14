@@ -111,31 +111,36 @@ function enableAutoRun() {
     });
 }
 
-const accountsUrl = 'account/account-summary';
+[
+    'account/account-summary',
+    'account/search-transaction'
+].forEach(accountsUrl => {
 
-runOnURLMatch(accountsUrl, () => {
-    pageAlreadyScraped = false;
-    navigating = false;
+    runOnURLMatch(accountsUrl, () => {
+        pageAlreadyScraped = false;
+        navigating = false;
+    });
+
+    runOnContentChange(
+        accountsUrl,
+        () => {
+            if (!!document.getElementById(buttonId)) {
+                return;
+            }
+            addButton();
+        },
+        getButtonDestination,
+    )
+
+
+    runOnContentChange(
+        accountsUrl,
+        enableAutoRun,
+        // You might need to play with this. Some banks don't completely reload the
+        // page. So you might need to observe a higher level DOM element, instead.
+        // As a last resort, you can use document.body, but that will cause lag.
+        () => getAccountElements()[0],
+        'accounts',
+    )
+
 });
-
-runOnContentChange(
-    accountsUrl,
-    () => {
-        if (!!document.getElementById(buttonId)) {
-            return;
-        }
-        addButton();
-    },
-    getButtonDestination,
-)
-
-
-runOnContentChange(
-    accountsUrl,
-    enableAutoRun,
-    // You might need to play with this. Some banks don't completely reload the
-    // page. So you might need to observe a higher level DOM element, instead.
-    // As a last resort, you can use document.body, but that will cause lag.
-    () => getAccountElements()[0],
-    'accounts',
-)
